@@ -1,4 +1,4 @@
-import React from "react";
+/*import React from "react";
 import Link from "next/link";
 import { Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -100,3 +100,4 @@ const Navbar: React.FC = () => {
 };
 
 export default Navbar;
+*/
