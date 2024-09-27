@@ -1,10 +1,10 @@
 import { Route, Routes } from "react-router-dom";
 import "./components/Menubar";
 import "./components/Login";
-import "./components/Register";
+import "./components/Signup";
 import Menubar from "./components/Menubar";
 import Login from "./components/Login";
-import Register from "./components/Register";
+import Register from "./components/Signup";
 function App() {
   return (
     <Routes>
