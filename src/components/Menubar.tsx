@@ -1,3 +1,4 @@
+import { motion } from "framer-motion";
 import React from "react";
 
 const Menubar: React.FC = (): JSX.Element => {
@@ -16,14 +17,18 @@ const Menubar: React.FC = (): JSX.Element => {
         </a>
         <div className="ms-auto d-flex">
           <a className="navbar-brand" href="register">
-            <button className="btn btn-outline-secondary" type="button">
-              Sign Up
-            </button>
+            <motion.div whileHover={{ scale: 1.2 }} whileTap={{ scale: 1.1 }}>
+              <button className="btn btn-outline-secondary" type="button">
+                Sign Up
+              </button>
+            </motion.div>
           </a>
           <a className="navbar-brand ms-2" href="log">
-            <button className="btn btn-outline-secondary" type="button">
-              Log In
-            </button>
+            <motion.div whileHover={{ scale: 1.2 }} whileTap={{ scale: 1.1 }}>
+              <button className="btn btn-outline-secondary" type="button">
+                Log In
+              </button>
+            </motion.div>
           </a>
         </div>
       </div>
