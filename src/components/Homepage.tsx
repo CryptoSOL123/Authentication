@@ -3,6 +3,7 @@ import rainImage from "../assets/rain.png";
 
 const Homepage = () => {
   console.log(screen.width);
+  return 0;
   return (
     <img
       src={rainImage}
