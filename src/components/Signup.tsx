@@ -1,26 +1,49 @@
 import React, { useState } from "react";
-import "./SignUp.css"; // We'll create this file next
+import "./SignUp.css"; // Your CSS file for styling
+import supabase from "./supabaseClient"; // Import Supabase client
 
 const SignUp: React.FC = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [message, setMessage] = useState("");
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    // Here you would typically send the data to your backend API
-    console.log("Username:", username);
-    console.log("Email:", email);
-    console.log("Password:", password);
-    console.log("Confirm Password:", confirmPassword);
+    // Check if password and confirmPassword match
+    if (password !== confirmPassword) {
+      setMessage("Passwords do not match!");
+      return;
+    }
 
-    // Clear the form fields
-    setUsername("");
-    setEmail("");
-    setPassword("");
-    setConfirmPassword("");
+    // Insert data into Supabase
+    try {
+      const { data, error } = await supabase
+        .from("users") // Ensure this matches the table name you created
+        .insert([
+          {
+            username: username,
+            email: email,
+            password: password, // Ideally, you should hash the password before storing it
+          },
+        ]);
+
+      if (error) {
+        throw error;
+      }
+
+      setMessage("User signed up successfully!");
+
+      // Clear the form fields after successful submission
+      setUsername("");
+      setEmail("");
+      setPassword("");
+      setConfirmPassword("");
+    } catch (error: any) {
+      setMessage(`Error: ${error.message}`);
+    }
   };
 
   return (
@@ -78,7 +101,7 @@ const SignUp: React.FC = () => {
             </button>
           </div>
         </form>
-        <p id="message"></p>
+        <p id="message">{message}</p> {/* Display success/error message */}
       </div>
     </div>
   );

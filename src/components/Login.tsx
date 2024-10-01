@@ -1,20 +1,40 @@
 import React, { useState } from "react";
 import "./Login.css"; // Import the CSS file for styles
+import supabase from "./supabaseClient"; // Import your Supabase client
 
 const Login: React.FC = () => {
-  // State to store username and password
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [message, setMessage] = useState("");
 
   // Handler for form submission
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault(); // Prevent page reload
 
-    // Log the username and password (You can send this data to your backend API here)
-    console.log("Username:", username);
-    console.log("Password:", password);
+    try {
+      // Query Supabase for a user with the given username
+      const { data, error } = await supabase
+        .from("users")
+        .select("*")
+        .eq("username", username)
+        .single(); // Fetch a single user
 
-    // Clear the form fields (Optional)
+      if (error || !data) {
+        setMessage("User not found!");
+        return;
+      }
+
+      // Check if the provided password matches the stored password
+      if (data.password === password) {
+        setMessage("Login successful!");
+      } else {
+        setMessage("Incorrect password!");
+      }
+    } catch (error: any) {
+      setMessage(`Login failed: ${error.message}`);
+    }
+
+    // Clear the form fields (optional)
     setUsername("");
     setPassword("");
   };
@@ -52,7 +72,7 @@ const Login: React.FC = () => {
             </button>
           </div>
         </form>
-        <p id="message"></p>
+        <p id="message">{message}</p> {/* Display success/error message */}
       </div>
     </div>
   );
